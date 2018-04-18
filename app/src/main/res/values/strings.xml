@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Open Gallery</string>
+    <string name="request_storage_permission_denied">Permission to access storage was denied, cannot load album</string>
+    <string name="request_storage_permission_title">Request permission</string>
+    <string name="request_storage_permission_message">Please accept storage permission to load album</string>
+    <string name="exit">Exit</string>
+    <string name="try_again">Try again</string>
+</resources>
