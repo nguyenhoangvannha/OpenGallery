@@ -16,8 +16,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class CPHelper {
-    private static HashMap<String, Album> albums = new HashMap<>();
-    public static void getAlbums(Context context) {
+    private static HashMap<String, Album> mAlbums = new HashMap<String, Album>();
+    private static ArrayList<Album> albums = new ArrayList<>();
+    public static ArrayList<Album> getAlbums(Context context) {
+        mAlbums.clear();
         albums.clear();
         String[] projection = new String[]{
                 MediaStore.Images.Media._ID,
@@ -62,21 +64,28 @@ public class CPHelper {
             do {
                 // Get the field values
                 bucket = cur.getString(bucketColumn);
-                name = cur.getString(nameColumn);
                 data = cur.getString(dataColumn);
-                date = cur.getString(dateColumn);
-                des = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.DESCRIPTION));
-                title = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.TITLE));
-                if(albums.containsKey(bucket)){
-                    albums.get(bucket).getPhotos().add(data);
+                //name = cur.getString(nameColumn);
+                //date = cur.getString(dateColumn);
+//                des = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.DESCRIPTION));
+//                title = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.TITLE));
+                if(mAlbums.containsKey(bucket)){
+                    mAlbums.get(bucket).getPhotos().add(data);
                 } else{
                     ArrayList<String> photos = new ArrayList<>();
                     File file = new File(data);
                     photos.add(data);
                     Album album = new Album(bucket, file.getParent(), photos);
-                    albums.put(bucket, album);
+                    mAlbums.put(bucket, album);
                 }
             } while (cur.moveToNext());
             Log.i("ALBUMS", albums.toString());
-        }}
+        }
+        Iterator iterator = mAlbums.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<String, Album> entry = (Map.Entry) iterator.next();
+            albums.add(entry.getValue());
+        }
+        return albums;
+    }
 }
