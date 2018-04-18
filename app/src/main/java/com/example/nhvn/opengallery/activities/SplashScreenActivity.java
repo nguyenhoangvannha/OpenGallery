@@ -29,7 +29,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void start(){
         if(PermissionUtils.isStoragePermissionsGranted(this)){
             Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 113);
         } else {
             PermissionUtils.requestPermissions(this, EXTERNAL_STORAGE_PERMISSIONS_ID
                     , Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -60,8 +60,19 @@ public class SplashScreenActivity extends AppCompatActivity {
                             start();
                         }
                     }).show();
+                } else{
+                    start();
                 }
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 113:
+                finish();
         }
     }
 }
