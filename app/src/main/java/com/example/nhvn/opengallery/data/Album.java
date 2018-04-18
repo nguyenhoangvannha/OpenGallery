@@ -1,8 +1,9 @@
 package com.example.nhvn.opengallery.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Album {
+public class Album implements Serializable{
     private String name;
     private String path;
     private ArrayList<String> photos;

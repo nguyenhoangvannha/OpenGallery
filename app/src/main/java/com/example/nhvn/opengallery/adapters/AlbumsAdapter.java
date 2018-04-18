@@ -2,6 +2,7 @@ package com.example.nhvn.opengallery.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nhvn.opengallery.R;
+import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
+import com.example.nhvn.opengallery.data.provider.CPHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,19 +42,26 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-
-        Album album = albums.get(position);
-        Log.i("ALBUM INDEX", position + " " + album.getName());
+    public void onBindViewHolder(@NonNull mViewHolder holder, final int position) {
+        final Album album = albums.get(position);
         if(album.getPhotos().size() > 0){
             try{
-                holder.imgCover.setImageURI(Uri.fromFile(new File(album.getPhotos().get(0))));
+                //holder.imgCover.setImageURI(Uri.fromFile(new File(album.getPhotos().get(0))));
+                Bitmap bitmap = CPHelper.getThumbnail(context.getContentResolver(), album.getPhotos().get(0));
+                holder.imgCover.setImageBitmap(bitmap);
             } catch (Exception e){
 
             }
         }
         holder.txtAlbumName.setText(album.getName());
         holder.txtAlbumMediaCount.setText(album.getPhotos().size() + "");
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Album: " + album.getPath(), Toast.LENGTH_SHORT).show();
+                ((MainActivity) context).onMsgFromFragToMain(album);
+            }
+        });
     }
 
     @Override
@@ -63,6 +74,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolde
         public TextView txtAlbumName;
         public TextView txtAlbumMediaCount;
         public TextView txtAlbumMediaLabel;
+        public View view;
 
         public mViewHolder(View itemView) {
             super(itemView);
@@ -70,6 +82,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolde
             txtAlbumName = itemView.findViewById(R.id.album_name);
             txtAlbumMediaCount = itemView.findViewById(R.id.album_media_count);
             txtAlbumMediaLabel = itemView.findViewById(R.id.album_media_label);
+            view = itemView;
         }
     }
 }

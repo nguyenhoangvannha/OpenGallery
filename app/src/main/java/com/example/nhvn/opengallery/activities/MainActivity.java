@@ -1,6 +1,7 @@
 package com.example.nhvn.opengallery.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,11 +20,14 @@ import android.widget.FrameLayout;
 
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.adapters.AlbumsAdapter;
+import com.example.nhvn.opengallery.data.Album;
 import com.example.nhvn.opengallery.data.provider.CPHelper;
+import com.example.nhvn.opengallery.fragments.AlbumFragment;
 import com.example.nhvn.opengallery.fragments.AlbumsFragment;
+import com.example.nhvn.opengallery.interfaces.IFragToMain;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IFragToMain{
     private FrameLayout content;
     private AlbumsFragment albumsFragment;
 
@@ -116,5 +120,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onMsgFromFragToMain(Album album) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, AlbumFragment.newInstance(this, album)).commit();
     }
 }

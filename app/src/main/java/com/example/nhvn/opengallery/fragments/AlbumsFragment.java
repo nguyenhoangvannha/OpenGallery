@@ -23,6 +23,7 @@ import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.adapters.AlbumsAdapter;
 import com.example.nhvn.opengallery.data.Album;
 import com.example.nhvn.opengallery.data.provider.CPHelper;
+import com.example.nhvn.opengallery.interfaces.IFragToMain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,6 +102,9 @@ public class AlbumsFragment extends Fragment {
         recyclerView.setAdapter(albumsAdapter);
         return frameLayout;
     }
+
+
+
     public class MediaSpaceDecoration extends RecyclerView.ItemDecoration {
         private final int spacing;
 
