@@ -47,7 +47,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolde
         if(album.getPhotos().size() > 0){
             try{
                 //holder.imgCover.setImageURI(Uri.fromFile(new File(album.getPhotos().get(0))));
-                Bitmap bitmap = CPHelper.getThumbnail(context.getContentResolver(), album.getPhotos().get(0));
+//                Bitmap bitmap = CPHelper.getThumbnail(context.getContentResolver(), album.getPhotos().get(0));
+                Bitmap bitmap = CPHelper.decodeSampledBitmapFromResource(album.getPhotos().get(0), 175, 175);
                 holder.imgCover.setImageBitmap(bitmap);
             } catch (Exception e){
 

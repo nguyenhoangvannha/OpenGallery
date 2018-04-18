@@ -1,6 +1,7 @@
 package com.example.nhvn.opengallery.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;

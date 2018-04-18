@@ -3,8 +3,10 @@ package com.example.nhvn.opengallery.data.provider;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -100,5 +102,56 @@ public class CPHelper {
         ca.close();
         return null;
 
+    }
+
+//    Bitmap productIndex = null;
+//    final String imageLoc = IMAGE_LOCATION;
+//    InputStream imageStream;
+//try {
+//        imageStream = new FileInputStream(imageLoc);
+//        productIndex = decodeSampledBitmapFromResource(getResources(), imageLoc, 400, 400);
+//
+//        productIV.setImageBitmap(productIndex);
+//    } catch (FileNotFoundException e1) {
+//        // TODO Auto-generated catch block
+//        e1.printStackTrace();
+//    }
+//}
+
+    public static Bitmap decodeSampledBitmapFromResource(String resId, int reqWidth, int reqHeight) {
+
+// First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(resId, options);
+
+// Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+// Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(resId, options);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+// Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 3;
+            final int halfWidth = width / 3;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 }
