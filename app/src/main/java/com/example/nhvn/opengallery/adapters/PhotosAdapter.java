@@ -1,12 +1,8 @@
 package com.example.nhvn.opengallery.adapters;
 
 import android.content.Context;
-import android.media.Image;
-import android.net.Uri;
-import android.support.annotation.Dimension;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +10,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.nhvn.opengallery.R;
-import com.example.nhvn.opengallery.activities.PhotosActivity;
+import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
-import com.example.nhvn.opengallery.data.provider.CPHelper;
 
 import java.io.File;
 
@@ -56,7 +51,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PhotosActivity)context).onMsgFromAdapterToActivity(position);
+                ((MainActivity)context).onMsgFromFragToMain( album, position);
             }
         });
     }

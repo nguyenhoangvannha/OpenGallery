@@ -1,14 +1,11 @@
 package com.example.nhvn.opengallery.fragments;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +20,14 @@ import com.example.nhvn.opengallery.util.MediaSpaceDecoration;
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * to handle interaction events.
- * Use the {@link AlbumFragment#newInstance} factory method to
+ * Use the {@link PhotosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AlbumFragment extends Fragment {
+public class PhotosFragment extends Fragment   {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String BUNDLE_ALBUM = "ALBUM";
-
+    public static final String TAG = "PhotosFragment";
     // TODO: Rename and change types of parameters
 
     Context context;
@@ -39,13 +36,13 @@ public class AlbumFragment extends Fragment {
     RecyclerView recyclerView;
     FrameLayout frameLayout;
     PhotosAdapter photosAdapter;
-    public AlbumFragment() {
+    public PhotosFragment() {
 
     }
 
     // TODO: Rename and change types and number of parameters
-    public static AlbumFragment newInstance(Context context, Album album) {
-        AlbumFragment fragment = new AlbumFragment();
+    public static PhotosFragment newInstance(Context context, Album album) {
+        PhotosFragment fragment = new PhotosFragment();
         Bundle args = new Bundle();
         args.putSerializable(BUNDLE_ALBUM, album);
         fragment.setArguments(args);
@@ -79,4 +76,6 @@ public class AlbumFragment extends Fragment {
     public void onButtonPressed(Uri uri) {
 
     }
+
+
 }

@@ -1,29 +1,21 @@
 package com.example.nhvn.opengallery.activities;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.nhvn.opengallery.R;
-import com.example.nhvn.opengallery.adapters.AlbumsAdapter;
 import com.example.nhvn.opengallery.data.Album;
-import com.example.nhvn.opengallery.data.provider.CPHelper;
-import com.example.nhvn.opengallery.fragments.AlbumFragment;
+import com.example.nhvn.opengallery.fragments.PhotosFragment;
 import com.example.nhvn.opengallery.fragments.AlbumsFragment;
 import com.example.nhvn.opengallery.interfaces.IFragToMain;
 
@@ -31,6 +23,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IFragToMain{
     private FrameLayout content;
     private AlbumsFragment albumsFragment;
+    private boolean isAlbumsMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +31,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         content = findViewById(R.id.content);
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,17 +53,20 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         albumsFragment = new AlbumsFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.content, albumsFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.content, albumsFragment)
+                .addToBackStack(AlbumsFragment.TAG).commit();
+        isAlbumsMode = true;
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            //super.onBackPressed();
+        if (isAlbumsMode) {
+            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
             finish();
+        } else {
+            Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
+            getSupportFragmentManager().popBackStack();
+            isAlbumsMode = true;
         }
     }
 
@@ -125,11 +119,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMsgFromFragToMain(Album album) {
-        Intent intent = new Intent(MainActivity.this, PhotosActivity.class);
-        intent.putExtra("ALBUM", album);
-//        Intent intent = new Intent(MainActivity.this, SinglePhotoActivity.class);
+//        Intent intent = new Intent(MainActivity.this, PhotosActivity.class);
 //        intent.putExtra("ALBUM", album);
+//        startActivity(intent);
+        isAlbumsMode = false;
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content, PhotosFragment.newInstance(this, album))
+                .addToBackStack(PhotosFragment.TAG)
+                .commit();
+
+    }
+
+    @Override
+    public void onMsgFromFragToMain(Album album, int pos) {
+        Intent intent = new Intent(this, SinglePhotoActivity.class);
+        intent.putExtra("ALBUM", album);
+        intent.putExtra("POS", pos);
         startActivity(intent);
-        //getSupportFragmentManager().beginTransaction().replace(R.id.content, AlbumFragment.newInstance(this, album)).commit();
     }
 }

@@ -1,12 +1,8 @@
 package com.example.nhvn.opengallery.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +14,9 @@ import com.bumptech.glide.Glide;
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
-import com.example.nhvn.opengallery.data.provider.CPHelper;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolder> {
     Context context;

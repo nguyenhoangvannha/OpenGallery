@@ -1,18 +1,14 @@
 package com.example.nhvn.opengallery.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.data.Album;
 
 import java.io.File;
