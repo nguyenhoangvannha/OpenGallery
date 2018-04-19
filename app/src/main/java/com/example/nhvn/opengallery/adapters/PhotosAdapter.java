@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.nhvn.opengallery.R;
+import com.example.nhvn.opengallery.activities.PhotosActivity;
 import com.example.nhvn.opengallery.data.Album;
 import com.example.nhvn.opengallery.data.provider.CPHelper;
 
@@ -52,6 +53,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         } catch (Exception e) {
             e.printStackTrace();
         }
+        holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PhotosActivity)context).onMsgFromAdapterToActivity(position);
+            }
+        });
     }
 
 
