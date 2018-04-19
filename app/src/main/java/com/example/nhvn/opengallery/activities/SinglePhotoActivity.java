@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Toast;
-
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.adapters.PhotoPagerAdapter;
 import com.example.nhvn.opengallery.data.Album;
