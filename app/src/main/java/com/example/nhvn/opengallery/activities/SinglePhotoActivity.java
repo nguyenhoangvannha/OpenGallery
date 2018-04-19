@@ -21,7 +21,7 @@ public class SinglePhotoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo);
+        setContentView(R.layout.activity_photo_pager);
         album = (Album) getIntent().getSerializableExtra("ALBUM");
         pos = getIntent().getIntExtra("POS", 0);
 
