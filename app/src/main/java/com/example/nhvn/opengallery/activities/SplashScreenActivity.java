@@ -59,7 +59,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             start();
                         }
-                    }).show();
+                    }).setCancelable(false).show();
                 } else{
                     start();
                 }

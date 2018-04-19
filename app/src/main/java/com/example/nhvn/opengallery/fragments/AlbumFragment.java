@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,17 @@ public class AlbumFragment extends Fragment {
         frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_album, container, false);
         recyclerView = frameLayout.findViewById(R.id.photos);
         photosAdapter = new PhotosAdapter(context, album);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+        int state  = recyclerView.getScrollState();
+        Log.i("state", state + "");
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                Log.i("newState", newState +  " getChildCount"  + recyclerView.getChildCount());
+            }
+        });
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(photosAdapter);
         return frameLayout;
     }

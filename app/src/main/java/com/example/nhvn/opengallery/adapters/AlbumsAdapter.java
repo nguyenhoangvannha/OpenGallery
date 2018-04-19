@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
@@ -48,8 +49,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolde
             try{
                 //holder.imgCover.setImageURI(Uri.fromFile(new File(album.getPhotos().get(0))));
 //                Bitmap bitmap = CPHelper.getThumbnail(context.getContentResolver(), album.getPhotos().get(0));
-                Bitmap bitmap = CPHelper.decodeSampledBitmapFromResource(album.getPhotos().get(0), 175, 175);
-                holder.imgCover.setImageBitmap(bitmap);
+
+                Glide.with(context).load(new File(album.getPhotos().get(0)))
+                        .into(holder.imgCover);
+//                Bitmap bitmap = CPHelper.decodeSampledBitmapFromResource(album.getPhotos().get(0), 175, 175);
+//                holder.imgCover.setImageBitmap(bitmap);
             } catch (Exception e){
 
             }

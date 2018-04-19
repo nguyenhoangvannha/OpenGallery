@@ -104,20 +104,7 @@ public class CPHelper {
 
     }
 
-//    Bitmap productIndex = null;
-//    final String imageLoc = IMAGE_LOCATION;
-//    InputStream imageStream;
-//try {
-//        imageStream = new FileInputStream(imageLoc);
-//        productIndex = decodeSampledBitmapFromResource(getResources(), imageLoc, 400, 400);
-//
-//        productIV.setImageBitmap(productIndex);
-//    } catch (FileNotFoundException e1) {
-//        // TODO Auto-generated catch block
-//        e1.printStackTrace();
-//    }
-//}
-
+    //https://stackoverflow.com/questions/21392972/how-to-load-large-images-in-android-and-avoiding-the-out-of-memory-error
     public static Bitmap decodeSampledBitmapFromResource(String resId, int reqWidth, int reqHeight) {
 
 // First decode with inJustDecodeBounds=true to check dimensions
@@ -130,6 +117,8 @@ public class CPHelper {
 
 // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inDither = true;
         return BitmapFactory.decodeFile(resId, options);
     }
 

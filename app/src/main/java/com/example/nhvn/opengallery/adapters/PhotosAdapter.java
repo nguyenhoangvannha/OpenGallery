@@ -1,6 +1,7 @@
 package com.example.nhvn.opengallery.adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.data.Album;
 import com.example.nhvn.opengallery.data.provider.CPHelper;
@@ -34,17 +36,22 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         try {
 //            holder.imgPhoto.setImageURI(Uri.fromFile(new File(album.getPhotos().get(position))));
 //            holder.imgPhoto.setImageBitmap(
 //                    CPHelper.getThumbnail(context.getContentResolver(), album.getPhotos().get(position)));
-                        holder.imgPhoto.setImageBitmap(
-                    CPHelper.decodeSampledBitmapFromResource(album.getPhotos().get(position), 115, 115));
+
+            Glide.with(context).load(new File(album.getPhotos().get(position)))
+                    .into(holder.imgPhoto);
+
+//            holder.imgPhoto.setImageBitmap(
+//                    CPHelper.decodeSampledBitmapFromResource(album.getPhotos().get(position), 115, 115));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public int getItemCount() {
