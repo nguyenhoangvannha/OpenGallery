@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity
     public void onMsgFromFragToMain(Album album) {
         Intent intent = new Intent(MainActivity.this, PhotosActivity.class);
         intent.putExtra("ALBUM", album);
+//        Intent intent = new Intent(MainActivity.this, SinglePhotoActivity.class);
+//        intent.putExtra("ALBUM", album);
         startActivity(intent);
         //getSupportFragmentManager().beginTransaction().replace(R.id.content, AlbumFragment.newInstance(this, album)).commit();
     }
