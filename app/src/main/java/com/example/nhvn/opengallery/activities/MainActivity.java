@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMsgFromFragToMain(Album album) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, AlbumFragment.newInstance(this, album)).commit();
+        Intent intent = new Intent(MainActivity.this, PhotosActivity.class);
+        intent.putExtra("ALBUM", album);
+        startActivity(intent);
+        //getSupportFragmentManager().beginTransaction().replace(R.id.content, AlbumFragment.newInstance(this, album)).commit();
     }
 }
