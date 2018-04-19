@@ -1,6 +1,7 @@
 package com.example.nhvn.opengallery.fragments;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -67,6 +68,7 @@ public class AlbumFragment extends Fragment {
         recyclerView = frameLayout.findViewById(R.id.photos);
         photosAdapter = new PhotosAdapter(context, album);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+
         int state  = recyclerView.getScrollState();
         Log.i("state", state + "");
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -77,6 +79,7 @@ public class AlbumFragment extends Fragment {
             }
         });
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.addItemDecoration(new MediaSpaceDecoration(8));
         recyclerView.setAdapter(photosAdapter);
         return frameLayout;
     }
@@ -86,5 +89,57 @@ public class AlbumFragment extends Fragment {
 
     }
 
+    public class MediaSpaceDecoration extends RecyclerView.ItemDecoration {
+        private final int spacing;
 
+        public MediaSpaceDecoration(int spacing) {
+            this.spacing = spacing;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect,
+                                   View view,
+                                   RecyclerView parent,
+                                   RecyclerView.State state) {
+            final int position = parent.getChildAdapterPosition(view);
+
+            final int totalSpanCount = getTotalSpanCount(parent);
+            int spanSize = getItemSpanSize(parent, position);
+            if (totalSpanCount == spanSize) {
+                return;
+            }
+
+            outRect.top = isInTheFirstRow(position, totalSpanCount) ? 0 : spacing;
+            outRect.left = isFirstInRow(position, totalSpanCount) ? 0 : spacing / 2;
+            outRect.right = isLastInRow(position, totalSpanCount) ? 0 : spacing / 2;
+            outRect.bottom = 0; // don't need
+        }
+
+        private boolean isInTheFirstRow(int position, int spanCount) {
+            return position < spanCount;
+        }
+
+        private boolean isFirstInRow(int position, int spanCount) {
+            return position % spanCount == 0;
+        }
+
+        private boolean isLastInRow(int position, int spanCount) {
+            return isFirstInRow(position + 1, spanCount);
+        }
+
+        private int getTotalSpanCount(RecyclerView parent) {
+            final RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
+            return layoutManager instanceof GridLayoutManager
+                    ? ((GridLayoutManager) layoutManager).getSpanCount()
+                    : 1;
+        }
+
+        private int getItemSpanSize(RecyclerView parent, int position) {
+            final RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
+            return layoutManager instanceof GridLayoutManager
+                    ? ((GridLayoutManager) layoutManager).getSpanSizeLookup().getSpanSize(position)
+                    : 1;
+        }
+
+    }
 }
