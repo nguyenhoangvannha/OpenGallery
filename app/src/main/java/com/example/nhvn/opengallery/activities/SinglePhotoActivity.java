@@ -24,7 +24,6 @@ public class SinglePhotoActivity extends AppCompatActivity {
         pos = getIntent().getIntExtra("POS", 0);
         File photo = new File(album.getPhotos().get(pos));
         setTitle(photo.getName());
-        Log.i("photoactiv", album.getName());
         viewPager = findViewById(R.id.viewPager);
         PhotoAdapter photoAdapter = new PhotoAdapter(this, album);
         viewPager.setAdapter(photoAdapter);
