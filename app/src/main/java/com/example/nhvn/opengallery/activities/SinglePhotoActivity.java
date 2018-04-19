@@ -22,6 +22,8 @@ public class SinglePhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photo);
         album = (Album) getIntent().getSerializableExtra("ALBUM");
         pos = getIntent().getIntExtra("POS", 0);
+        File photo = new File(album.getPhotos().get(pos));
+        setTitle(photo.getName());
         Log.i("photoactiv", album.getName());
         viewPager = findViewById(R.id.viewPager);
         PhotoAdapter photoAdapter = new PhotoAdapter(this, album);
@@ -30,7 +32,8 @@ public class SinglePhotoActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                setTitle(new File(album.getPhotos().get(position)).getName());
+                File pic = new File(album.getPhotos().get(position));
+                setTitle(pic.getName());
             }
 
             @Override
