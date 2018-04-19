@@ -29,8 +29,10 @@
             android:name=".activities.PhotosActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activities.SinglePhotoActivity" />
-        <activity android:name=".activities.SinglePhotoActivity"></activity>
+        <activity android:name=".activities.SinglePhotoActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

@@ -16,11 +16,11 @@ import com.example.nhvn.opengallery.data.Album;
 
 import java.io.File;
 
-public class PhotoAdapter extends PagerAdapter {
+public class PhotoPagerAdapter extends PagerAdapter {
     Context context;
     Album album;
 
-    public PhotoAdapter(Context context, Album album) {
+    public PhotoPagerAdapter(Context context, Album album) {
         this.context = context;
         this.album = album;
     }
