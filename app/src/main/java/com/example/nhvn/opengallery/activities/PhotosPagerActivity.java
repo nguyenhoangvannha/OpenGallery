@@ -132,7 +132,6 @@ public class PhotosPagerActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                File pic = new File(album.getPhotos().get(position));
             }
 
             @Override
