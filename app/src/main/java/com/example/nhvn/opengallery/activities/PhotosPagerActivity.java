@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.adapters.PhotosPagerAdapter;
 import com.example.nhvn.opengallery.data.Album;
+import com.example.nhvn.opengallery.data.provider.ExifHelper;
 
 import java.io.File;
 
@@ -138,7 +139,9 @@ public class PhotosPagerActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 File pic = new File(album.getPhotos().get(position));
                 getSupportActionBar().setTitle(pic.getName());
-                Toast.makeText(PhotosPagerActivity.this, pic.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PhotosPagerActivity.this,
+                        ExifHelper.getExifData(PhotosPagerActivity.this, pic).toString()
+                        , Toast.LENGTH_LONG).show();
             }
 
             @Override
