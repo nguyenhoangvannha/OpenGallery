@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.nhvn.opengallery.activities.PhotosPagerActivity;
@@ -58,7 +59,6 @@ public class PhotosPagerAdapter extends PagerAdapter {
                 touchImageView.setImageBitmap(resource);
             }
         });
-
         ((ViewPager) container).addView(touchImageView, 0);
         touchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
