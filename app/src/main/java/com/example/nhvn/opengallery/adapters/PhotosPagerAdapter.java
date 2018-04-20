@@ -1,8 +1,11 @@
 package com.example.nhvn.opengallery.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
@@ -12,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.nhvn.opengallery.activities.PhotosPagerActivity;
 import com.example.nhvn.opengallery.data.Album;
 import com.example.nhvn.opengallery.view.TouchImageView;
@@ -41,15 +46,19 @@ public class PhotosPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull final ViewGroup container, int position) {
 
-        ImageView imageView = new ImageView(context);
-        Glide.with(context).load(new File(album.getPhotos().get(position))).into(imageView);
-
-        TouchImageView touchImageView = new TouchImageView(context);
+        final TouchImageView touchImageView = new TouchImageView(context);
         //touchImageView.setImageDrawable(imageView.getDrawable());
         touchImageView.setScaleType(TouchImageView.ScaleType.CENTER_INSIDE);
 
         //Glide.with(context).load(new File(album.getPhotos().get(position))).into(touchImageView);
-        touchImageView.setImageURI(Uri.fromFile(new File(album.getPhotos().get(position))));
+        //touchImageView.setImageURI(Uri.fromFile(new File(album.getPhotos().get(position))));
+        Glide.with(context).asBitmap().load(new File(album.getPhotos().get(position))).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                touchImageView.setImageBitmap(resource);
+            }
+        });
+
         ((ViewPager) container).addView(touchImageView, 0);
         touchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
