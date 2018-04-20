@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMsgFromFragToMain(Album album, int pos) {
-        Intent intent = new Intent(this, SinglePhotoActivity.class);
+        Intent intent = new Intent(this, PhotosPagerActivity.class);
         intent.putExtra("ALBUM", album);
         intent.putExtra("POS", pos);
         startActivity(intent);

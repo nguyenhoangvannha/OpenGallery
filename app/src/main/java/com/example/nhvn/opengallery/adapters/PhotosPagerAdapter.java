@@ -9,15 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.nhvn.opengallery.activities.PhotosPagerActivity;
 import com.example.nhvn.opengallery.data.Album;
 
 import java.io.File;
 
-public class PhotoPagerAdapter extends PagerAdapter {
+public class PhotosPagerAdapter extends PagerAdapter {
     Context context;
     Album album;
 
-    public PhotoPagerAdapter(Context context, Album album) {
+    public PhotosPagerAdapter(Context context, Album album) {
         this.context = context;
         this.album = album;
     }
@@ -34,11 +35,17 @@ public class PhotoPagerAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull final ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         Glide.with(context).load(new File(album.getPhotos().get(position))).into(imageView);
         ((ViewPager) container).addView(imageView, 0);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PhotosPagerActivity) context).toggle();
+            }
+        });
         return imageView;
     }
 
