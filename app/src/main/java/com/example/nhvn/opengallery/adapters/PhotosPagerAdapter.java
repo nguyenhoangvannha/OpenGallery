@@ -4,9 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nhvn.opengallery.activities.PhotosPagerActivity;
@@ -36,7 +38,7 @@ public class PhotosPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull final ViewGroup container, int position) {
-        ImageView imageView = new ImageView(context);
+        final ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         Glide.with(context).load(new File(album.getPhotos().get(position))).into(imageView);
         ((ViewPager) container).addView(imageView, 0);
@@ -44,6 +46,13 @@ public class PhotosPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 ((PhotosPagerActivity) context).toggle();
+            }
+        });
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Toast.makeText(context, "x: " + event.getX() + " y: " + event.getY(), Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
         return imageView;
