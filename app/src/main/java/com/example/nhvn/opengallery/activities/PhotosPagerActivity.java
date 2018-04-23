@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -141,7 +144,8 @@ public class PhotosPagerActivity extends AppCompatActivity {
 
         File photo = new File(album.getPhotos().get(pos));
         getSupportActionBar().setTitle(photo.getName());
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.toolbar_color)));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Toast.makeText(this, photo.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 
         viewPager = findViewById(R.id.viewPager);
@@ -174,6 +178,12 @@ public class PhotosPagerActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_photos_pager, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
         return true;
     }
 
