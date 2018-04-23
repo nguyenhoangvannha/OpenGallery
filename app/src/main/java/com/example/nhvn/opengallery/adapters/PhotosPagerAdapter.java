@@ -62,12 +62,19 @@ public class PhotosPagerAdapter extends PagerAdapter {
                 .skipMemoryCache(true)
                 .placeholder(new ColorDrawable(Color.WHITE))
                 .override(1184, 1264);
-        Glide.with(context).asBitmap().load(new File(album.getPhotos().get(position))).apply(options).into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                touchImageView.setImageBitmap(resource);
-            }
-        });
+        File image = new File(album.getPhotos().get(position));
+        if(image.getName().endsWith("gif")){
+            Glide.with(context).asGif()
+                    .load(image)
+                    .into(touchImageView);
+        } else {
+            Glide.with(context).asBitmap().load(image).apply(options).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    touchImageView.setImageBitmap(resource);
+                }
+            });
+        }
         ((ViewPager) container).addView(touchImageView, 0);
         touchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +82,7 @@ public class PhotosPagerAdapter extends PagerAdapter {
                 ((PhotosPagerActivity) context).toggle();
             }
         });
+
 
 //        final ImageView imageView = new ImageView(context);
 //        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
