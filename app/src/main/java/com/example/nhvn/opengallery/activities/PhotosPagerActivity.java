@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.nhvn.opengallery.BuildConfig;
 import com.example.nhvn.opengallery.R;
+import com.example.nhvn.opengallery.adapters.PhotosAdapter;
 import com.example.nhvn.opengallery.adapters.PhotosPagerAdapter;
 import com.example.nhvn.opengallery.data.Album;
 import com.example.nhvn.opengallery.data.ExifInfo;
@@ -60,6 +61,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
+    PhotosPagerAdapter photoAdapter;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -143,7 +145,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
         Toast.makeText(this, photo.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 
         viewPager = findViewById(R.id.viewPager);
-        PhotosPagerAdapter photoAdapter = new PhotosPagerAdapter(this, album);
+        photoAdapter = new PhotosPagerAdapter(this, album);
         viewPager.setAdapter(photoAdapter);
         viewPager.setCurrentItem(pos);
         addEvents();
@@ -177,27 +179,49 @@ public class PhotosPagerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final File file = new File(album.getPhotos().get(pos));
         switch (item.getItemId()){
             case R.id.share:
             {
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("image/*");
-                File file = new File(album.getPhotos().get(pos));
                 Uri uri1 = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
                 share.putExtra(Intent.EXTRA_STREAM, uri1);
                 share.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(share, getString(R.string.send_to)));
+                break;
             }
+            case R.id.delete:
+                DialogUtils.showDialog(this, getResources().getString(R.string.delete),
+                        getResources().getString(R.string.delete_confirm),
+                        getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteItemOnClickListener(file);
+                            }
+                        }, getResources().getString(R.string.no), null);
+
                 break;
             case R.id.details:
                 //ExifHelper.getExifData(this,new File(album.getPhotos().get(pos))).toString()
                 DialogUtils.showDialog(this, getResources().getString(R.string.details),
-                        Html.fromHtml(ExifHelper.getExifData(this,new File(album.getPhotos().get(pos))).toString()),
+                        Html.fromHtml(ExifHelper.getExifData(this,file).toString()),
                         getResources().getString(R.string.ok),null, null , null);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteItemOnClickListener(File file){
+        if (file.delete()){
+//                                    TODO: Xu ly xoa file voi bo nho ngoai
+            album.getPhotos().remove(pos);
+            photoAdapter.notifyDataSetChanged();
+            Toast.makeText(PhotosPagerActivity.this, "Delete sucess", Toast.LENGTH_SHORT).show();
+        } else{
+            Toast.makeText(PhotosPagerActivity.this, "Delete error", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

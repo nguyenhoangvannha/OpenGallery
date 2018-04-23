@@ -16,6 +16,11 @@
     <string name="noname">No name</string>
     <string name="ok">Ok</string>
     <string name="send_to">Send to</string>
+    <!--Option-->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <!--Message-->
+    <string name="delete_confirm">Delete this?</string>
     <!--Menu-->
     <string name="edit">Edit</string>
     <string name="use_as">Use as</string>

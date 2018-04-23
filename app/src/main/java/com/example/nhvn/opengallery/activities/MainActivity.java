@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.nhvn.opengallery.R;
+import com.example.nhvn.opengallery.adapters.PhotosAdapter;
 import com.example.nhvn.opengallery.data.Album;
 import com.example.nhvn.opengallery.fragments.PhotosFragment;
 import com.example.nhvn.opengallery.fragments.AlbumsFragment;

@@ -14,8 +14,9 @@ import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
+public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder>{
     Context context;
     Album album;
     LayoutInflater layoutInflater;
@@ -51,7 +52,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)context).onMsgFromFragToMain( album, position);
+
+                ((MainActivity)context).onMsgFromFragToMain(album, position);
             }
         });
     }
