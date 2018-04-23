@@ -2,18 +2,25 @@ package com.example.nhvn.opengallery.activities;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.nhvn.opengallery.BuildConfig;
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.adapters.PhotosPagerAdapter;
 import com.example.nhvn.opengallery.data.Album;
@@ -21,7 +28,11 @@ import com.example.nhvn.opengallery.data.ExifInfo;
 import com.example.nhvn.opengallery.data.provider.ExifHelper;
 import com.example.nhvn.opengallery.util.DialogUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -167,6 +178,17 @@ public class PhotosPagerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.share:
+            {
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("image/*");
+                File file = new File(album.getPhotos().get(pos));
+                Uri uri1 = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
+                share.putExtra(Intent.EXTRA_STREAM, uri1);
+                share.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(Intent.createChooser(share, getString(R.string.send_to)));
+            }
+                break;
             case R.id.details:
                 //ExifHelper.getExifData(this,new File(album.getPhotos().get(pos))).toString()
                 DialogUtils.showDialog(this, getResources().getString(R.string.details),
