@@ -257,7 +257,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 0, 2000);
+        }, 0, 1000);
     }
 
     @Override
