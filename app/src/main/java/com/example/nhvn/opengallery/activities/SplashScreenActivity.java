@@ -44,7 +44,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 if(!allPermissionGranted){
                     StringUtils.showToast(this, getResources().getString(R.string.request_storage_permission_denied));
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setIcon(R.drawable.ic_error_outline_black_48dp).setTitle(R.string.request_storage_permission_title)
+                    builder.setIcon(R.drawable.ic_error_outline_black_24dp).setTitle(R.string.request_storage_permission_title)
                             .setMessage(R.string.request_storage_permission_message).setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

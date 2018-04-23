@@ -142,6 +142,12 @@ public class PhotosPagerActivity extends AppCompatActivity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         album = (Album) getIntent().getSerializableExtra("ALBUM");
         pos = getIntent().getIntExtra("POS", 0);
 

@@ -16,6 +16,12 @@
     <string name="noname">No name</string>
     <string name="ok">Ok</string>
     <string name="send_to">Send to</string>
+    <!--Nav-->
+    <string name="albums">Albums</string>
+    <string name="videos">Videos</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="hiden_item">Hiden items</string>
     <!--Option-->
     <string name="yes">Yes</string>
     <string name="no">No</string>
