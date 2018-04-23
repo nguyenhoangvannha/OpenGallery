@@ -28,10 +28,11 @@ public class ExifInfo {
 
     @Override
     public String toString() {
-        String result = "Title " + title + "\nPath " + path + "\nType " + type + "\nSize " + width + "x" + height
-                + "\nSize " + size + " " + sizeDataType + "\nDate " + date + "\nISO " + iso + "\nAperture " + aperture
-                + "\nExposure time " + exposureTime + " s"  + "\nFocal length " + focalDistance + " mm"
-                + "\nOrientation " + orientation;
+        String result = "<b>Title</b> " + title + "<br/><b>Path</b> " + path + "<br/><b>Type</b> " + type + "<br/><b>Size</b> "
+                + width + "x" + height + "<br/><b>Size</b> " + size + " " + sizeDataType + "<br/><b>Date</b> "
+                + date + "<br/><b>ISO</b> " + iso + "<br/><b>Aperture</b> " + aperture
+                + "<br/><b>Exposure time</b> " + exposureTime + " s"  + "<br/><b>Focal length</b> " + focalDistance + " mm"
+                + "<br/><b>Orientation</b> " + orientation;
         return result;
     }
 

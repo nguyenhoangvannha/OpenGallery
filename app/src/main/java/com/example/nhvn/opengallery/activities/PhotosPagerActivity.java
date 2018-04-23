@@ -1,12 +1,15 @@
 package com.example.nhvn.opengallery.activities;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -14,7 +17,9 @@ import android.widget.Toast;
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.adapters.PhotosPagerAdapter;
 import com.example.nhvn.opengallery.data.Album;
+import com.example.nhvn.opengallery.data.ExifInfo;
 import com.example.nhvn.opengallery.data.provider.ExifHelper;
+import com.example.nhvn.opengallery.util.DialogUtils;
 
 import java.io.File;
 
@@ -130,6 +135,10 @@ public class PhotosPagerActivity extends AppCompatActivity {
         PhotosPagerAdapter photoAdapter = new PhotosPagerAdapter(this, album);
         viewPager.setAdapter(photoAdapter);
         viewPager.setCurrentItem(pos);
+        addEvents();
+    }
+
+    private void addEvents(){
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -137,11 +146,9 @@ public class PhotosPagerActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                pos = position;
                 File pic = new File(album.getPhotos().get(position));
                 getSupportActionBar().setTitle(pic.getName());
-                Toast.makeText(PhotosPagerActivity.this,
-                        ExifHelper.getExifData(PhotosPagerActivity.this, pic).toString()
-                        , Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -150,11 +157,27 @@ public class PhotosPagerActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_photos_pager, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.details:
+                //ExifHelper.getExifData(this,new File(album.getPhotos().get(pos))).toString()
+                DialogUtils.showDialog(this, getResources().getString(R.string.details),
+                        Html.fromHtml(ExifHelper.getExifData(this,new File(album.getPhotos().get(pos))).toString()),
+                        getResources().getString(R.string.ok),null, null , null);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
