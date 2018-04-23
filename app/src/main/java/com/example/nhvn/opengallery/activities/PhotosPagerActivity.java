@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -37,6 +38,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -212,6 +215,9 @@ public class PhotosPagerActivity extends AppCompatActivity {
                         }, getResources().getString(R.string.no), null);
 
                 break;
+            case R.id.play:
+                playItemOnClickListener();
+                break;
             case R.id.details:
                 //ExifHelper.getExifData(this,new File(album.getPhotos().get(pos))).toString()
                 DialogUtils.showDialog(this, getResources().getString(R.string.details),
@@ -232,6 +238,26 @@ public class PhotosPagerActivity extends AppCompatActivity {
         } else{
             Toast.makeText(PhotosPagerActivity.this, "Delete error", Toast.LENGTH_SHORT).show();
         }
+    }
+    private void playItemOnClickListener(){
+        final Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (pos >= album.getPhotos().size()) { // In my case the number of pages are 5
+                            timer.cancel();
+                            // Showing a toast for just testing purpose
+                            Toast.makeText(getApplicationContext(), "Play done",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            viewPager.setCurrentItem(pos++);
+                        }
+                    }
+                });
+            }
+        }, 0, 2000);
     }
 
     @Override
