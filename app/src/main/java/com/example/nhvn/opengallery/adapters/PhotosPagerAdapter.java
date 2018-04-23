@@ -2,6 +2,8 @@ package com.example.nhvn.opengallery.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -53,7 +57,12 @@ public class PhotosPagerAdapter extends PagerAdapter {
 
         //Glide.with(context).load(new File(album.getPhotos().get(position))).into(touchImageView);
         //touchImageView.setImageURI(Uri.fromFile(new File(album.getPhotos().get(position))));
-        Glide.with(context).asBitmap().load(new File(album.getPhotos().get(position))).into(new SimpleTarget<Bitmap>() {
+        RequestOptions options = new RequestOptions();
+        options.dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .placeholder(new ColorDrawable(Color.WHITE))
+                .override(1184, 1264);
+        Glide.with(context).asBitmap().load(new File(album.getPhotos().get(position))).apply(options).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                 touchImageView.setImageBitmap(resource);
