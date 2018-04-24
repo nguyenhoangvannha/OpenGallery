@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -64,9 +65,15 @@ public class PhotosPagerAdapter extends PagerAdapter {
                 .override(1184, 1264);
         File image = new File(album.getPhotos().get(position));
         if(image.getName().endsWith("gif")){
-            Glide.with(context).asGif()
-                    .load(image)
-                    .into(touchImageView);
+            SimpleTarget<GifDrawable> target = new SimpleTarget<GifDrawable>() {
+                @Override
+                public void onResourceReady(GifDrawable resource, Transition<? super GifDrawable> transition) {
+                    resource.start();
+                    touchImageView.setImageDrawable(resource);
+                    touchImageView.setZoom(1f);
+                }
+            };
+            Glide.with(touchImageView.getContext()).asGif().load(album.getPhotos().get(position)).into(target);
         } else {
             Glide.with(context).asBitmap().load(image).apply(options).into(new SimpleTarget<Bitmap>() {
                 @Override
