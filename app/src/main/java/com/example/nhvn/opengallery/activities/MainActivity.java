@@ -1,6 +1,7 @@
 package com.example.nhvn.opengallery.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +20,7 @@ import com.example.nhvn.opengallery.adapters.PhotosAdapter;
 import com.example.nhvn.opengallery.data.Album;
 import com.example.nhvn.opengallery.fragments.PhotosFragment;
 import com.example.nhvn.opengallery.fragments.AlbumsFragment;
+import com.example.nhvn.opengallery.fragments.VideosFragment;
 import com.example.nhvn.opengallery.interfaces.IFragToMain;
 
 public class MainActivity extends AppCompatActivity
@@ -104,7 +106,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_albums) {
             // Handle the camera action
         } else if (id == R.id.nav_videos) {
-
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content, VideosFragment.newInstance("ABC", "DEF"), VideosFragment.TAG)
+                    .addToBackStack(VideosFragment.TAG).commit();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -140,4 +144,5 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("POS", pos);
         startActivity(intent);
     }
+
 }
