@@ -106,9 +106,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_albums) {
             // Handle the camera action
         } else if (id == R.id.nav_videos) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content, VideosFragment.newInstance("ABC", "DEF"), VideosFragment.TAG)
-                    .addToBackStack(VideosFragment.TAG).commit();
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.content, VideosFragment.newInstance("ABC", "DEF"), VideosFragment.TAG)
+//                    .addToBackStack(VideosFragment.TAG).commit();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
