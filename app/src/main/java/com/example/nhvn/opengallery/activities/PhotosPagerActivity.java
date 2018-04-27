@@ -3,12 +3,8 @@ package com.example.nhvn.opengallery.activities;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
@@ -17,27 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.nhvn.opengallery.BuildConfig;
 import com.example.nhvn.opengallery.R;
-import com.example.nhvn.opengallery.adapters.PhotosAdapter;
 import com.example.nhvn.opengallery.adapters.PhotosPagerAdapter;
 import com.example.nhvn.opengallery.data.Album;
-import com.example.nhvn.opengallery.data.ExifInfo;
 import com.example.nhvn.opengallery.data.provider.ExifHelper;
 import com.example.nhvn.opengallery.util.DialogUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -151,7 +139,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
         album = (Album) getIntent().getSerializableExtra("ALBUM");
         pos = getIntent().getIntExtra("POS", 0);
 
-        File photo = new File(album.getPhotos().get(pos));
+        File photo = new File(album.getMedias().get(pos));
         getSupportActionBar().setTitle(photo.getName());
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.toolbar_color)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -173,7 +161,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 pos = position;
-                File pic = new File(album.getPhotos().get(position));
+                File pic = new File(album.getMedias().get(position));
                 getSupportActionBar().setTitle(pic.getName());
             }
 
@@ -198,7 +186,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        final File file = new File(album.getPhotos().get(pos));
+        final File file = new File(album.getMedias().get(pos));
         switch (item.getItemId()){
             case R.id.share:
             {
@@ -225,7 +213,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
                 playItemOnClickListener();
                 break;
             case R.id.details:
-                //ExifHelper.getExifData(this,new File(album.getPhotos().get(pos))).toString()
+                //ExifHelper.getExifData(this,new File(album.getMedias().get(pos))).toString()
                 DialogUtils.showDialog(this, getResources().getString(R.string.details),
                         Html.fromHtml(ExifHelper.getExifData(this,file).toString()),
                         getResources().getString(R.string.ok),null, null , null);
@@ -238,7 +226,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
     private void deleteItemOnClickListener(File file){
         if (file.delete()){
 //                                    TODO: Xu ly xoa file voi bo nho ngoai
-            album.getPhotos().remove(pos);
+            album.getMedias().remove(pos);
             photoAdapter.notifyDataSetChanged();
             Toast.makeText(PhotosPagerActivity.this, "Delete sucess", Toast.LENGTH_SHORT).show();
         } else{
@@ -252,7 +240,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
             public void run() {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        if (pos >= album.getPhotos().size()) { // In my case the number of pages are 5
+                        if (pos >= album.getMedias().size()) { // In my case the number of pages are 5
                             timer.cancel();
                             pos--;
                             // Showing a toast for just testing purpose

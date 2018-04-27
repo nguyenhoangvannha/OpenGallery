@@ -45,9 +45,9 @@ public class AlbumsFragment extends Fragment  {
      * this fragment using the provided parameters.
      * @return A new instance of fragment AlbumsFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static AlbumsFragment newInstance(String param1, String param2) {
+    public static AlbumsFragment newInstance(ArrayList<Album> albums) {
         AlbumsFragment fragment = new AlbumsFragment();
+        fragment.albums = albums;
         return fragment;
     }
 
@@ -65,7 +65,6 @@ public class AlbumsFragment extends Fragment  {
         // Inflate the layout for this fragment
         frameLayout = (LinearLayout) inflater.inflate(R.layout.fragment_albums, container, false);
         recyclerView = frameLayout.findViewById(R.id.albums);
-        albums = CPHelper.getAlbums(context);
         albumsAdapter = new AlbumsAdapter(context, albums);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 2);
         recyclerView.setLayoutManager(mLayoutManager);

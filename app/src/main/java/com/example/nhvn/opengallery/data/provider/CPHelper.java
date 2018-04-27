@@ -3,13 +3,11 @@ package com.example.nhvn.opengallery.data.provider;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.example.nhvn.opengallery.data.Album;
 
@@ -22,6 +20,8 @@ import java.util.Map;
 public class CPHelper {
     private static HashMap<String, Album> mAlbums = new HashMap<String, Album>();
     private static ArrayList<Album> albums = new ArrayList<>();
+    private static HashMap<String, Album> mVideos = new HashMap<String, Album>();
+    private static ArrayList<Album> videos = new ArrayList<>();
     public static ArrayList<Album> getAlbums(Context context) {
         mAlbums.clear();
         albums.clear();
@@ -46,7 +46,6 @@ public class CPHelper {
                 null        // Ordering
         );
 
-        Log.i("ListingImages", " query count=" + cur.getCount());
 
         if (cur.moveToFirst()) {
             String bucket;
@@ -74,7 +73,7 @@ public class CPHelper {
 //                des = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.DESCRIPTION));
 //                title = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.TITLE));
                 if(mAlbums.containsKey(bucket)){
-                    mAlbums.get(bucket).getPhotos().add(data);
+                    mAlbums.get(bucket).getMedias().add(data);
                 } else{
                     ArrayList<String> photos = new ArrayList<>();
                     File file = new File(data);
@@ -83,7 +82,6 @@ public class CPHelper {
                     mAlbums.put(bucket, album);
                 }
             } while (cur.moveToNext());
-            Log.i("ALBUMS", albums.toString());
         }
         Iterator iterator = mAlbums.entrySet().iterator();
         while (iterator.hasNext()){
@@ -91,6 +89,73 @@ public class CPHelper {
             albums.add(entry.getValue());
         }
         return albums;
+    }
+    public static ArrayList<Album> getVideos(Context context) {
+        mVideos.clear();
+        videos.clear();
+        String[] projection = new String[]{
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Video.Media.DATE_TAKEN,
+                MediaStore.Video.Media.DISPLAY_NAME,
+                MediaStore.Video.Media.DATA,
+                MediaStore.Video.Media.DESCRIPTION,
+                MediaStore.Video.Media.TITLE,
+        };
+
+        // content:// style URI for the "primary" external storage volume
+        Uri images = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+
+        // Make the query.
+        Cursor cur = ((Activity)context).managedQuery(images,
+                projection, // Which columns to return
+                null,       // Which rows to return (all rows)
+                null,       // Selection arguments (none)
+                null        // Ordering
+        );
+
+        if (cur.moveToFirst()) {
+            String bucket;
+            String date;
+            String name;
+            String data;
+            String des;
+            String title;
+            int bucketColumn = cur.getColumnIndex(
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+
+            int dateColumn = cur.getColumnIndex(
+                    MediaStore.Images.Media.DATE_TAKEN);
+
+            int nameColumn = cur.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
+
+            int dataColumn = cur.getColumnIndex(MediaStore.Images.Media.DATA);
+
+            do {
+                // Get the field values
+                bucket = cur.getString(bucketColumn);
+                data = cur.getString(dataColumn);
+                //name = cur.getString(nameColumn);
+                //date = cur.getString(dateColumn);
+//                des = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.DESCRIPTION));
+//                title = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.TITLE));
+                if(mVideos.containsKey(bucket)){
+                    mVideos.get(bucket).getMedias().add(data);
+                } else{
+                    ArrayList<String> photos = new ArrayList<>();
+                    File file = new File(data);
+                    photos.add(data);
+                    Album album = new Album(bucket, file.getParent(), photos);
+                    mVideos.put(bucket, album);
+                }
+            } while (cur.moveToNext());
+        }
+        Iterator iterator = mVideos.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<String, Album> entry = (Map.Entry) iterator.next();
+            videos.add(entry.getValue());
+        }
+        return videos;
     }
     public static Bitmap getThumbnail(ContentResolver cr, String path) throws Exception {
         Cursor ca = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[] { MediaStore.MediaColumns._ID }, MediaStore.MediaColumns.DATA + "=?", new String[] {path}, null);

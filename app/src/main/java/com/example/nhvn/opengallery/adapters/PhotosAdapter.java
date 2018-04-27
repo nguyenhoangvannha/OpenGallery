@@ -1,8 +1,6 @@
 package com.example.nhvn.opengallery.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,14 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
 
 import java.io.File;
-import java.io.Serializable;
 
 public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder>{
     Context context;
@@ -41,15 +36,15 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         try {
-//            holder.imgPhoto.setImageURI(Uri.fromFile(new File(album.getPhotos().get(position))));
+//            holder.imgPhoto.setImageURI(Uri.fromFile(new File(album.getMedias().get(position))));
 //            holder.imgPhoto.setImageBitmap(
-//                    CPHelper.getThumbnail(context.getContentResolver(), album.getPhotos().get(position)));
+//                    CPHelper.getThumbnail(context.getContentResolver(), album.getMedias().get(position)));
 
-            Glide.with(context).load(new File(album.getPhotos().get(position)))
+            Glide.with(context).load(new File(album.getMedias().get(position)))
                     .into(holder.imgPhoto);
 
 //            holder.imgPhoto.setImageBitmap(
-//                    CPHelper.decodeSampledBitmapFromResource(album.getPhotos().get(position), 115, 115));
+//                    CPHelper.decodeSampledBitmapFromResource(album.getMedias().get(position), 115, 115));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +60,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return album.getPhotos().size();
+        return album.getMedias().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

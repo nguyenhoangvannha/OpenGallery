@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public class Album implements Serializable{
     private String name;
     private String path;
-    private ArrayList<String> photos;
+    private ArrayList<String> medias;
 
     public Album(String name, String path, ArrayList<String> photos) {
         this.name = name;
         this.path = path;
-        this.photos = photos;
+        this.medias = photos;
     }
 
     public Album() {
@@ -34,12 +34,12 @@ public class Album implements Serializable{
         this.path = path;
     }
 
-    public ArrayList<String> getPhotos() {
-        return photos;
+    public ArrayList<String> getMedias() {
+        return medias;
     }
 
-    public void setPhotos(ArrayList<String> photos) {
-        this.photos = photos;
+    public void setMedias(ArrayList<String> medias) {
+        this.medias = medias;
     }
 
     @Override

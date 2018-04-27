@@ -4,23 +4,17 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.nhvn.opengallery.activities.PhotosPagerActivity;
@@ -40,7 +34,7 @@ public class PhotosPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return album.getPhotos().size();
+        return album.getMedias().size();
     }
 
     @Override
@@ -56,14 +50,14 @@ public class PhotosPagerAdapter extends PagerAdapter {
         //touchImageView.setImageDrawable(imageView.getDrawable());
         touchImageView.setScaleType(TouchImageView.ScaleType.CENTER_INSIDE);
 
-        //Glide.with(context).load(new File(album.getPhotos().get(position))).into(touchImageView);
-        //touchImageView.setImageURI(Uri.fromFile(new File(album.getPhotos().get(position))));
+        //Glide.with(context).load(new File(album.getMedias().get(position))).into(touchImageView);
+        //touchImageView.setImageURI(Uri.fromFile(new File(album.getMedias().get(position))));
         RequestOptions options = new RequestOptions();
         options.dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .placeholder(new ColorDrawable(Color.WHITE))
                 .override(1184, 1264);
-        File image = new File(album.getPhotos().get(position));
+        File image = new File(album.getMedias().get(position));
         if(image.getName().endsWith("gif")){
             SimpleTarget<GifDrawable> target = new SimpleTarget<GifDrawable>() {
                 @Override
@@ -73,7 +67,7 @@ public class PhotosPagerAdapter extends PagerAdapter {
                     touchImageView.setZoom(1f);
                 }
             };
-            Glide.with(touchImageView.getContext()).asGif().load(album.getPhotos().get(position)).into(target);
+            Glide.with(touchImageView.getContext()).asGif().load(album.getMedias().get(position)).into(target);
         } else {
             Glide.with(context).asBitmap().load(image).apply(options).into(new SimpleTarget<Bitmap>() {
                 @Override
@@ -93,7 +87,7 @@ public class PhotosPagerAdapter extends PagerAdapter {
 
 //        final ImageView imageView = new ImageView(context);
 //        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-//        Glide.with(context).load(new File(album.getPhotos().get(position))).into(imageView);
+//        Glide.with(context).load(new File(album.getMedias().get(position))).into(imageView);
 //        ((ViewPager) container).addView(imageView, 0);
 //        imageView.setOnClickListener(new View.OnClickListener() {
 //            @Override

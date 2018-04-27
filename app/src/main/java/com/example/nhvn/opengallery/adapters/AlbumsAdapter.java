@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Options;
 import com.example.nhvn.opengallery.R;
 import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
@@ -39,21 +40,20 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolde
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, final int position) {
         final Album album = albums.get(position);
-        if(album.getPhotos().size() > 0){
+        if(album.getMedias().size() > 0){
             try{
-                //holder.imgCover.setImageURI(Uri.fromFile(new File(album.getPhotos().get(0))));
-//                Bitmap bitmap = CPHelper.getThumbnail(context.getContentResolver(), album.getPhotos().get(0));
-
-                Glide.with(context).load(new File(album.getPhotos().get(0)))
+                //holder.imgCover.setImageURI(Uri.fromFile(new File(album.getMedias().get(0))));
+//                Bitmap bitmap = CPHelper.getThumbnail(context.getContentResolver(), album.getMedias().get(0));
+                Glide.with(context).load(new File(album.getMedias().get(0)))
                         .into(holder.imgCover);
-//                Bitmap bitmap = CPHelper.decodeSampledBitmapFromResource(album.getPhotos().get(0), 175, 175);
+//                Bitmap bitmap = CPHelper.decodeSampledBitmapFromResource(album.getMedias().get(0), 175, 175);
 //                holder.imgCover.setImageBitmap(bitmap);
             } catch (Exception e){
 
             }
         }
         holder.txtAlbumName.setText(album.getName());
-        holder.txtAlbumMediaCount.setText(album.getPhotos().size() + "");
+        holder.txtAlbumMediaCount.setText(album.getMedias().size() + "");
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
