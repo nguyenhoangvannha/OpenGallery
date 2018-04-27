@@ -254,6 +254,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
                     public void run() {
                         if (pos >= album.getPhotos().size()) { // In my case the number of pages are 5
                             timer.cancel();
+                            pos--;
                             // Showing a toast for just testing purpose
                             Toast.makeText(getApplicationContext(), "Play done",
                                     Toast.LENGTH_LONG).show();
