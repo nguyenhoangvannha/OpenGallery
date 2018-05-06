@@ -51,8 +51,13 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ((MainActivity)context).onMsgFromFragToMain(album, position);
+                File photo = new File(album.getMedias().get(position));
+                String extension = photo.getPath().substring(photo.getPath().lastIndexOf("."));
+                if(extension.equals("mp4")||extension.equals("mp3")){
+                    ((MainActivity)context).onMsgFromFragToMain(album, position, 1);
+                }else{
+                    ((MainActivity)context).onMsgFromFragToMain(album, position, 0);
+                }
             }
         });
     }

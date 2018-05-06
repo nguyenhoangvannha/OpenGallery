@@ -143,11 +143,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMsgFromFragToMain(Album album, int pos) {
-        Intent intent = new Intent(this, PhotosPagerActivity.class);
-        intent.putExtra("ALBUM", album);
-        intent.putExtra("POS", pos);
-        startActivity(intent);
+    public void onMsgFromFragToMain(Album album, int pos, int isVideo) {
+        if(isVideo!=0){
+            Intent intent = new Intent(this, ViewVideoActivity.class);
+            intent.putExtra("VIDEOS", album);
+            intent.putExtra("POS", pos);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, PhotosPagerActivity.class);
+            intent.putExtra("ALBUM", album);
+            intent.putExtra("POS", pos);
+            startActivity(intent);
+        }
+
     }
+
+    //@Override
+    //public void onMsgFromFragToMain(Album video, int pos) {
+    //    Intent intent = new Intent(this, PhotosPagerActivity.class);
+    //    intent.putExtra("VIDEO", video);
+    //    intent.putExtra("POS", pos);
+    //    startActivity(intent);
+    //}
 
 }

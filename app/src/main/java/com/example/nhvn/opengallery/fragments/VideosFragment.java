@@ -4,12 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.example.nhvn.opengallery.R;
+import com.example.nhvn.opengallery.adapters.PhotosAdapter;
+import com.example.nhvn.opengallery.adapters.VideosAdapter;
+import com.example.nhvn.opengallery.data.Album;
+import com.example.nhvn.opengallery.util.MediaSpaceDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,34 +27,27 @@ import com.example.nhvn.opengallery.R;
 public class VideosFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String BUNDLE_VIDEOS = "VIDEOS";
     public static final String TAG = "VideosFragment";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Context context;
+    Album video;
 
-    private static RecyclerView videosRv;
+     RecyclerView videosRv;
+    FrameLayout frameLayout;
+    VideosAdapter videosAdapter;
 
     public VideosFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment VideosFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static VideosFragment newInstance(String param1, String param2) {
+    public static VideosFragment newInstance(Context context, Album videos) {
         VideosFragment fragment = new VideosFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(BUNDLE_VIDEOS, videos);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,8 +56,7 @@ public class VideosFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            video = (Album) getArguments().getSerializable(BUNDLE_VIDEOS);
         }
     }
 
@@ -66,7 +64,14 @@ public class VideosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_videos, container, false);
+        frameLayout = (FrameLayout) inflater.inflate(R.layout.fragment_videos, container, false);
+        videosRv = frameLayout.findViewById(R.id.videosRv);
+        //videosAdapter = new VideosAdapter(context, video);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+        videosRv.setLayoutManager(gridLayoutManager);
+        videosRv.addItemDecoration(new MediaSpaceDecoration(8));
+        videosRv.setAdapter(videosAdapter);
+        return frameLayout;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

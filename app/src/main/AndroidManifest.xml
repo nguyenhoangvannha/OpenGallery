@@ -30,6 +30,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_photos_pager"
             android:theme="@style/FullscreenTheme"></activity>
+        <activity
+            android:name=".activities.ViewVideoActivity"
+            android:label="Video play"
+            android:theme="@style/FullscreenTheme" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

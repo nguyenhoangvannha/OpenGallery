@@ -9,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.nhvn.opengallery.R;
+import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder>{
@@ -34,8 +38,23 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        final Album video = videos.get(position);
+        if(video.getMedias().size() > 0){
+            try{
+                Glide.with(context).load(new File(video.getMedias().get(0)))
+                        .into(holder.imgVideo);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Video: " + video.getPath(), Toast.LENGTH_SHORT).show();
+                ((MainActivity) context).onMsgFromFragToMain(video, position);
+            }
+        });
     }
 
     @Override
@@ -45,8 +64,12 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imgVideo;
+        public View view;
+
         public ViewHolder(View itemView) {
             super(itemView);
+            imgVideo = itemView.findViewById(R.id.imgVideo);
+            view = itemView;
         }
     }
 }

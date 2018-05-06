@@ -49,7 +49,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolde
 //                Bitmap bitmap = CPHelper.decodeSampledBitmapFromResource(album.getMedias().get(0), 175, 175);
 //                holder.imgCover.setImageBitmap(bitmap);
             } catch (Exception e){
-
+                e.printStackTrace();
             }
         }
         holder.txtAlbumName.setText(album.getName());
