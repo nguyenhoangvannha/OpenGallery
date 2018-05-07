@@ -14,11 +14,13 @@ import com.example.nhvn.opengallery.activities.MainActivity;
 import com.example.nhvn.opengallery.data.Album;
 
 import java.io.File;
+import java.net.URLConnection;
 
 public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder>{
     Context context;
     Album album;
     LayoutInflater layoutInflater;
+    private final String[] videoFileExtension = new String[]{"mp4", "mp3", "mkv", "3gp", "flac", "wav"};
 
     public PhotosAdapter(Context context, Album album) {
         this.context = context;
@@ -35,7 +37,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        File photo = new File(album.getMedias().get(position));
+        final File photo = new File(album.getMedias().get(position));
         final String extension = photo.getPath().substring(photo.getPath().lastIndexOf("."));
         try {
 //            holder.imgPhoto.setImageURI(Uri.fromFile(new File(album.getMedias().get(position))));
@@ -55,14 +57,30 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-                //if(extension.equals("mp4")||extension.equals("mp3")){
+                if(isVideoFile(photo)){
                     ((MainActivity)context).onMsgFromFragToMain(album, position, 1);
-                //}
-                //else{
-                //    ((MainActivity)context).onMsgFromFragToMain(album, position, 0);
-                //}
+                }
+                else{
+                    ((MainActivity)context).onMsgFromFragToMain(album, position, 0);
+                }
             }
         });
+    }
+
+    public static boolean isImageFile(String path) {
+        String mimeType = URLConnection.guessContentTypeFromName(path);
+        return mimeType != null && mimeType.startsWith("image");
+    }
+
+    public boolean isVideoFile(File file) {
+        for (String extension : videoFileExtension)
+        {
+            if (file.getName().toLowerCase().endsWith(extension))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
