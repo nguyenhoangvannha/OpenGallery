@@ -1,8 +1,11 @@
 package com.example.nhvn.opengallery.activities;
 
 import android.annotation.SuppressLint;
+import android.app.WallpaperManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +29,7 @@ import com.example.nhvn.opengallery.data.provider.ExifHelper;
 import com.example.nhvn.opengallery.util.DialogUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -217,6 +221,20 @@ public class PhotosPagerActivity extends AppCompatActivity {
                 DialogUtils.showDialog(this, getResources().getString(R.string.details),
                         Html.fromHtml(ExifHelper.getExifData(this,file).toString()),
                         getResources().getString(R.string.ok),null, null , null);
+                break;
+            case R.id.use:
+                Bitmap bitmap = BitmapFactory.decodeFile(file
+                        .getAbsolutePath());
+                WallpaperManager myWallpaperManager = WallpaperManager
+                        .getInstance(getApplicationContext());
+                try {
+                    myWallpaperManager.setBitmap(bitmap);
+                    Toast.makeText(PhotosPagerActivity.this, "setting Wallpaper successfully",
+                            Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    Toast.makeText(PhotosPagerActivity.this, "Error setting wallpaper",
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
 
