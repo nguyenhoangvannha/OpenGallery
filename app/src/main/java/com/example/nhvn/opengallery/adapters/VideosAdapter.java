@@ -52,7 +52,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Video: " + video.getPath(), Toast.LENGTH_SHORT).show();
-                ((MainActivity) context).onMsgFromFragToMain(video, position);
+                ((MainActivity) context).onMsgFromFragToMain(video, position,1);
             }
         });
     }

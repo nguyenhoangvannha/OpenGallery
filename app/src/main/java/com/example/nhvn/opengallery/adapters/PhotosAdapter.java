@@ -35,13 +35,16 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        File photo = new File(album.getMedias().get(position));
+        final String extension = photo.getPath().substring(photo.getPath().lastIndexOf("."));
         try {
 //            holder.imgPhoto.setImageURI(Uri.fromFile(new File(album.getMedias().get(position))));
 //            holder.imgPhoto.setImageBitmap(
 //                    CPHelper.getThumbnail(context.getContentResolver(), album.getMedias().get(position)));
 
             Glide.with(context).load(new File(album.getMedias().get(position)))
-                    .into(holder.imgPhoto);
+                        .into(holder.imgPhoto);
+
 
 //            holder.imgPhoto.setImageBitmap(
 //                    CPHelper.decodeSampledBitmapFromResource(album.getMedias().get(position), 115, 115));
@@ -51,13 +54,13 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File photo = new File(album.getMedias().get(position));
-                String extension = photo.getPath().substring(photo.getPath().lastIndexOf("."));
-                if(extension.equals("mp4")||extension.equals("mp3")){
+
+                //if(extension.equals("mp4")||extension.equals("mp3")){
                     ((MainActivity)context).onMsgFromFragToMain(album, position, 1);
-                }else{
-                    ((MainActivity)context).onMsgFromFragToMain(album, position, 0);
-                }
+                //}
+                //else{
+                //    ((MainActivity)context).onMsgFromFragToMain(album, position, 0);
+                //}
             }
         });
     }
