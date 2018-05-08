@@ -102,8 +102,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_albums) {
-            if(!isAlbumsMode)
-                getSupportFragmentManager().popBackStack();
+            albums = CPHelper.getAlbums(this);
+            getSupportFragmentManager().beginTransaction().add(R.id.content, AlbumsFragment.newInstance(albums))
+                    .addToBackStack(AlbumsFragment.TAG).commit();
+            getSupportActionBar().setTitle(getResources().getString(R.string.albums));
+            isAlbumsMode = true;
             // Handle the camera action
         } else if (id == R.id.nav_videos) {
             isVideosMode = true;
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity
             videos = CPHelper.getVideos(this);
             getSupportFragmentManager().beginTransaction().replace(R.id.content, AlbumsFragment.newInstance(videos))
                     .addToBackStack(AlbumsFragment.TAG).commit();
+            getSupportActionBar().setTitle(getResources().getString(R.string.videos));
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
