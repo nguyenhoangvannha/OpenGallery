@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Album> videos;
     private boolean isAlbumsMode = false;
     private boolean isVideosMode = false;
+    private boolean isCloseActivity = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +59,22 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         albums = CPHelper.getAlbums(this);
-        getSupportFragmentManager().beginTransaction().add(R.id.content, AlbumsFragment.newInstance(albums))
-                .addToBackStack(AlbumsFragment.TAG).commit();
-        isAlbumsMode = true;
+        if (!isCloseActivity){
+            getSupportFragmentManager().beginTransaction().add(R.id.content, AlbumsFragment.newInstance(albums))
+                    .addToBackStack(AlbumsFragment.TAG).commit();
+            isAlbumsMode = true;
+        }
     }
 
     @Override
     public void onBackPressed() {
+        Toast.makeText(MainActivity.this,
+                "BACK key pressed",
+                Toast.LENGTH_LONG).show();
         if (isAlbumsMode || isVideosMode) {
             finish();
         } else {
-            getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStackImmediate(0,0);
             isAlbumsMode = true;
         }
     }
@@ -103,10 +109,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_albums) {
             albums = CPHelper.getAlbums(this);
-            getSupportFragmentManager().beginTransaction().add(R.id.content, AlbumsFragment.newInstance(albums))
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, AlbumsFragment.newInstance(albums))
                     .addToBackStack(AlbumsFragment.TAG).commit();
             getSupportActionBar().setTitle(getResources().getString(R.string.albums));
             isAlbumsMode = true;
+            isVideosMode = false;
             // Handle the camera action
         } else if (id == R.id.nav_videos) {
             isVideosMode = true;
@@ -139,6 +146,7 @@ public class MainActivity extends AppCompatActivity
 //        intent.putExtra("ALBUM", album);
 //        startActivity(intent);
         isAlbumsMode = false;
+        isCloseActivity = true;
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, PhotosFragment.newInstance(this, album))
                 .addToBackStack(PhotosFragment.TAG)
