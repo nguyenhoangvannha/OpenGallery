@@ -68,9 +68,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(MainActivity.this,
-                "BACK key pressed",
-                Toast.LENGTH_LONG).show();
         if (isAlbumsMode || isVideosMode) {
             finish();
         } else {

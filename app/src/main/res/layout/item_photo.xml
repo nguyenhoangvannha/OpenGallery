@@ -7,11 +7,22 @@
     android:background="#FAFAFA"
     >
 
-    <ImageView
-        android:id="@+id/imgPhoto"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        app:srcCompat="@drawable/ic_menu_camera"
-        android:scaleType="center"
-        />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_menu_camera" />
+
+        <ImageView
+            android:id="@+id/imgPlayBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
 </LinearLayout>

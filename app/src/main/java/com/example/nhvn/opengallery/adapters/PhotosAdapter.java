@@ -43,6 +43,9 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 //            holder.imgPhoto.setImageURI(Uri.fromFile(new File(album.getMedias().get(position))));
 //            holder.imgPhoto.setImageBitmap(
 //                    CPHelper.getThumbnail(context.getContentResolver(), album.getMedias().get(position)));
+            if(isVideoFile(photo)){
+                holder.imgPlaybtn.setImageResource(R.drawable.ic_play_button_24dp);
+            }
 
             Glide.with(context).load(new File(album.getMedias().get(position)))
                         .into(holder.imgPhoto);
@@ -91,10 +94,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView imgPhoto;
+        public ImageView imgPlaybtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imgPhoto = itemView.findViewById(R.id.imgPhoto);
+            imgPlaybtn = itemView.findViewById(R.id.imgPlayBtn);
         }
     }
 }

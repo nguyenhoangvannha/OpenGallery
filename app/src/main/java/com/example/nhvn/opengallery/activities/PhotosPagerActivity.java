@@ -245,19 +245,38 @@ public class PhotosPagerActivity extends AppCompatActivity {
         if (file.delete()){
 //                                    TODO: Xu ly xoa file voi bo nho ngoai
             album.getMedias().remove(pos);
+            getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
             photoAdapter.notifyDataSetChanged();
+            photoAdapter = new PhotosPagerAdapter(this, album);
+            viewPager.setAdapter(photoAdapter);
+            viewPager.setCurrentItem(pos);
+            addEvents();
             Toast.makeText(PhotosPagerActivity.this, "Delete sucess", Toast.LENGTH_SHORT).show();
         } else{
             Toast.makeText(PhotosPagerActivity.this, "Delete error", Toast.LENGTH_SHORT).show();
         }
     }
+    private boolean isSlide = false;
+    //Runnable run;
+    //TimerTask time;
+    //Timer timer = new Timer();
     private void playItemOnClickListener(){
         final Timer timer = new Timer();
+        if(isSlide){
+            isSlide = false;
+            return;
+        }
+        isSlide = true;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        if (!isSlide){
+                            timer.cancel();
+                            return;
+                        }
+
                         if (pos >= album.getMedias().size()) { // In my case the number of pages are 5
                             timer.cancel();
                             pos--;
