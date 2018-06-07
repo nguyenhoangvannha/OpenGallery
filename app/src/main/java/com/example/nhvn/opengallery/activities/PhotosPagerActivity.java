@@ -281,12 +281,12 @@ public class PhotosPagerActivity extends AppCompatActivity {
                             viewPager.setAdapter(photoAdapter);
                             viewPager.setCurrentItem(pos);
                             addEvents();
-                            Toast.makeText(PhotosPagerActivity.this, "Rename success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PhotosPagerActivity.this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(PhotosPagerActivity.this, "Error rename", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PhotosPagerActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(PhotosPagerActivity.this, "Cannot find directory of the image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PhotosPagerActivity.this, getResources().getString(R.string.error_path), Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -313,9 +313,9 @@ public class PhotosPagerActivity extends AppCompatActivity {
             viewPager.setAdapter(photoAdapter);
             viewPager.setCurrentItem(pos);
             addEvents();
-            Toast.makeText(PhotosPagerActivity.this, "Delete sucess", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PhotosPagerActivity.this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
         } else{
-            Toast.makeText(PhotosPagerActivity.this, "Delete error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PhotosPagerActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
     private boolean isSlide = false;
@@ -324,7 +324,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
     //Timer timer = new Timer();
     private void playItemOnClickListener(){
         if(pos >= album.getMedias().size()-1) {
-            Toast.makeText(PhotosPagerActivity.this, "End of album", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PhotosPagerActivity.this, getResources().getString(R.string.done), Toast.LENGTH_SHORT).show();
             return;
         }
         final Timer timer = new Timer();

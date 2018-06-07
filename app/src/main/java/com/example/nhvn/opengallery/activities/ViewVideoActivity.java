@@ -94,10 +94,10 @@ public class ViewVideoActivity extends AppCompatActivity {
             videos.getMedias().remove(pos);
             getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
 
-            Toast.makeText(ViewVideoActivity.this, "Delete sucess", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewVideoActivity.this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
             finish();
         } else{
-            Toast.makeText(ViewVideoActivity.this, "Delete error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewVideoActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
 
