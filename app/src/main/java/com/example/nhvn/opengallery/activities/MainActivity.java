@@ -1,9 +1,13 @@
 package com.example.nhvn.opengallery.activities;
 
+import android.app.ActionBar;
+import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -33,7 +38,8 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Album> videos;
     private boolean isAlbumsMode = false;
     private boolean isVideosMode = false;
-    private boolean isCloseActivity = false;
+    private boolean isPauseActivity = false;
+    private boolean isAlbumUI = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,12 @@ public class MainActivity extends AppCompatActivity
 
         content = findViewById(R.id.content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        //content.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        //        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,27 +64,49 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().findItem(R.id.nav_hidden).setActionView(new Switch(this));
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        if(isAlbumUI){
+            finish();
+        }else{
+            getSupportFragmentManager().popBackStackImmediate(0,0);
+            isAlbumUI = true;
+        }
+        return true;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         albums = CPHelper.getAlbums(this);
-        if (!isCloseActivity){
+        if (!isPauseActivity){
             getSupportFragmentManager().beginTransaction().add(R.id.content, AlbumsFragment.newInstance(albums))
                     .addToBackStack(AlbumsFragment.TAG).commit();
             isAlbumsMode = true;
+        }
+        else{
+            //getSupportFragmentManager().beginTransaction().detach(oldFragment).commitNowAllowingStateLoss();
+            //getSupportFragmentManager().beginTransaction().attach(oldFragment).commitAllowingStateLoss();
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (isAlbumsMode || isVideosMode) {
+        if(isAlbumUI){
             finish();
-        } else {
+        }else{
             getSupportFragmentManager().popBackStackImmediate(0,0);
-            isAlbumsMode = true;
+            isAlbumUI = true;
         }
+        //if (isAlbumsMode || isVideosMode) {
+        //    finish();
+        //} else {
+        //    getSupportFragmentManager().popBackStackImmediate(0,0);
+        //    isAlbumsMode = true;
+        //}
     }
 
     @Override
@@ -111,10 +144,12 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle(getResources().getString(R.string.albums));
             isAlbumsMode = true;
             isVideosMode = false;
+            isAlbumUI = true;
             // Handle the camera action
         } else if (id == R.id.nav_videos) {
             isVideosMode = true;
             isAlbumsMode = false;
+            isAlbumUI = true;
 //            getSupportFragmentManager().beginTransaction()
 //                    .replace(R.id.content, VideosFragment.newInstance("ABC", "DEF"), VideosFragment.TAG)
 //                    .addToBackStack(VideosFragment.TAG).commit();
@@ -143,7 +178,8 @@ public class MainActivity extends AppCompatActivity
 //        intent.putExtra("ALBUM", album);
 //        startActivity(intent);
         isAlbumsMode = false;
-        isCloseActivity = true;
+        isAlbumUI = false;
+        //isPauseActivity = true;
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, PhotosFragment.newInstance(this, album))
                 .addToBackStack(PhotosFragment.TAG)
@@ -154,11 +190,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMsgFromFragToMain(Album album, int pos, int isVideo) {
         if(isVideo!=0){
+            //isAlbumUI = false;
+            isPauseActivity = true;
             Intent intent = new Intent(this, ViewVideoActivity.class);
             intent.putExtra("VIDEOS", album);
             intent.putExtra("POS", pos);
             startActivity(intent);
         }else{
+            //isAlbumUI = false;
+            isPauseActivity = true;
             Intent intent = new Intent(this, PhotosPagerActivity.class);
             intent.putExtra("ALBUM", album);
             intent.putExtra("POS", pos);
@@ -174,5 +214,17 @@ public class MainActivity extends AppCompatActivity
     //    intent.putExtra("POS", pos);
     //    startActivity(intent);
     //}
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

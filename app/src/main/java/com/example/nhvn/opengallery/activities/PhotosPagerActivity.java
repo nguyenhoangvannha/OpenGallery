@@ -153,6 +153,9 @@ public class PhotosPagerActivity extends AppCompatActivity {
         photoAdapter = new PhotosPagerAdapter(this, album);
         viewPager.setAdapter(photoAdapter);
         viewPager.setCurrentItem(pos);
+        //viewPager.setPageTransformer(true, new ParallaxPageTransformer());
+
+
         addEvents();
     }
 
@@ -277,7 +280,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
                             return;
                         }
 
-                        if (pos >= album.getMedias().size()) { // In my case the number of pages are 5
+                        if (pos >= album.getMedias().size()) {
                             timer.cancel();
                             pos--;
                             // Showing a toast for just testing purpose
@@ -344,4 +347,6 @@ public class PhotosPagerActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+
 }
