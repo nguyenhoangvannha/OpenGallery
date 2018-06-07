@@ -156,9 +156,6 @@ public class ViewVideoActivity extends AppCompatActivity {
         File video = new File(videos.getMedias().get(pos));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
         mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 

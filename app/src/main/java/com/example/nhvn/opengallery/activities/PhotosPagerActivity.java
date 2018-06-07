@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.ClipData;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
@@ -265,27 +267,40 @@ public class PhotosPagerActivity extends AppCompatActivity {
 
             builder.setView(viewInflated);
 
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            AlertDialog.Builder builder1 = builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     String m_Text = input.getText().toString();
-                    if(file.getParentFile() != null){
+                    if (file.getParentFile() != null) {
                         String extension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
-                        File to = new File(file.getParentFile(),m_Text+extension);
-                        if(file.renameTo(to)){
+                        Uri uri = Uri.fromFile(file);
+                        File to = new File(file.getParentFile(), m_Text + extension);
+                        if (file.renameTo(to)) {
+
                             getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                            album.getMedias().set(pos, to.getAbsolutePath());
+
+                            getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(to)));
+                            //album.getMedias().set(pos, to.getAbsolutePath());
+
+                            //ContentValues val = new ContentValues();
+                            //val.put("newPath", to.getAbsolutePath());
+                            //int row = getApplicationContext().getContentResolver()
+                            //        .update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            //                val,
+                            //                MediaStore.MediaColumns.DATA + "='" + Uri.fromFile(file) + "'",
+                            //                null);
+
                             photoAdapter.notifyDataSetChanged();
                             photoAdapter = new PhotosPagerAdapter(getApplicationContext(), album);
                             viewPager.setAdapter(photoAdapter);
                             viewPager.setCurrentItem(pos);
                             addEvents();
                             Toast.makeText(PhotosPagerActivity.this, "Rename success", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             Toast.makeText(PhotosPagerActivity.this, "Error rename", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(PhotosPagerActivity.this, "Cannot find directory of the image", Toast.LENGTH_SHORT).show();
                     }
 

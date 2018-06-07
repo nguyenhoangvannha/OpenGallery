@@ -45,4 +45,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="input_name">Name</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="nhom">Nhóm: 12</string>
+    <string name="_version">Version:</string>
+    <string name="version">1.0</string>
 </resources>
