@@ -57,7 +57,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.mViewHolde
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Album: " + album.getPath(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Album: " + album.getPath(), Toast.LENGTH_SHORT).show();
                 ((MainActivity) context).onMsgFromFragToMain(album);
             }
         });

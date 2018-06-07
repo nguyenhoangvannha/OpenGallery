@@ -51,6 +51,11 @@
             android:name=".activities.AboutActivity"
             android:label="@string/title_activity_about"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.VideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_videos"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

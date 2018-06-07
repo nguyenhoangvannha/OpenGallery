@@ -12,15 +12,6 @@
             android:id="@+id/nav_videos"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/videos" />
-        <item
-            android:id="@+id/nav_hidden"
-            android:icon="@drawable/ic_remove_red_eye_black_24dp"
-            android:title="@string/hidden_item"
-            />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
     </group>
 
     <item android:title="@string/more">
