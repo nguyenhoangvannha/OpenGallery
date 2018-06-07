@@ -17,8 +17,8 @@
     <string name="ok">Ok</string>
     <string name="send_to">Send to</string>
     <!--Nav-->
-    <string name="albums">Albums Images</string>
-    <string name="videos">Albums Videos</string>
+    <string name="albums">Photos</string>
+    <string name="videos">Videos</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="hidden_item">Hiden items</string>
