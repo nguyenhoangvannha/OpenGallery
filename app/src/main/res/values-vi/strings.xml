@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Open Gallery</string>
+    <string name="request_storage_permission_denied">Không thể tải hình ảnh</string>
+    <string name="request_storage_permission_title">Yêu cầu quyền</string>
+    <string name="request_storage_permission_message">Vui lòng chấp nhận các quyền sau để tải albums</string>
+    <string name="exit">Thoát</string>
+    <string name="try_again">Thử lại</string>
+    <string name="action_settings">Cài đặt</string>
+    <string name="media">Tập tin</string>
+    <string name="ok">Ok</string>
+    <string name="send_to">Gửi</string>
+    <string name="settings">Cài đặt</string>
+    <string name="about">Giới thiệu</string>
+    <string name="done">Xong</string>
+    <string name="delete_confirm">Xác nhận xóa?</string>
+    <string name="edit">Sửa</string>
+    <string name="use_as">Dùng làm hình nền</string>
+    <string name="rename">Đổi tên</string>
+    <string name="success">Thành công</string>
+    <string name="error">Lỗi</string>
+    <string name="details">Chi tiết</string>
+    <string name="more">Thêm</string>
+    <string name="share">Chia sẻ</string>
+    <string name="rotate">Xoay</string>
+    <string name="play">Chơi</string>
+    <string name="delete">Xóa</string>
+    <string name="error_path">Lỗi đường dẫn</string>
+    <string name="input_name">Tên</string>
+    <string name="albums">Hình ảnh</string>
+    <string name="videos">Phim</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+</resources>
