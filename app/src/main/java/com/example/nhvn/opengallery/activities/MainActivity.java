@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity
         content = findViewById(R.id.content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        //content.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        //        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,6 +63,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().findItem(R.id.nav_hidden).setActionView(new Switch(this));
+        content.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
     }
 

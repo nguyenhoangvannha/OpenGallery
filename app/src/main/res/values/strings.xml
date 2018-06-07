@@ -43,4 +43,6 @@
     <string name="title_activity_photos_pager">PhotosPagerActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="input_name">Name</string>
 </resources>

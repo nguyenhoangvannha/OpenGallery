@@ -1,7 +1,9 @@
 package com.example.nhvn.opengallery.activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.WallpaperManager;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,10 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.nhvn.opengallery.R;
@@ -46,6 +51,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
     ViewPager viewPager;
     Album album;
     int pos;
+    private Menu menu;
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
@@ -182,6 +188,7 @@ public class PhotosPagerActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_photos_pager, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -219,6 +226,9 @@ public class PhotosPagerActivity extends AppCompatActivity {
             case R.id.play:
                 playItemOnClickListener();
                 break;
+            case R.id.rename:
+                renameItemOnClickListener(file);
+                break;
             case R.id.details:
                 //ExifHelper.getExifData(this,new File(album.getMedias().get(pos))).toString()
                 DialogUtils.showDialog(this, getResources().getString(R.string.details),
@@ -244,6 +254,55 @@ public class PhotosPagerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void renameItemOnClickListener(final File file) {
+        if(file.exists()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(PhotosPagerActivity.this);
+            builder.setTitle("Rename image");
+
+            View viewInflated = LayoutInflater.from(PhotosPagerActivity.this).inflate(R.layout.text_input_dialog, (ViewGroup) findViewById(R.id.content), false);
+
+            final EditText input = (EditText) viewInflated.findViewById(R.id.input);
+
+            builder.setView(viewInflated);
+
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    String m_Text = input.getText().toString();
+                    if(file.getParentFile() != null){
+                        String extension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+                        File to = new File(file.getParentFile(),m_Text+extension);
+                        if(file.renameTo(to)){
+                            getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+                            album.getMedias().set(pos, to.getAbsolutePath());
+                            photoAdapter.notifyDataSetChanged();
+                            photoAdapter = new PhotosPagerAdapter(getApplicationContext(), album);
+                            viewPager.setAdapter(photoAdapter);
+                            viewPager.setCurrentItem(pos);
+                            addEvents();
+                            Toast.makeText(PhotosPagerActivity.this, "Rename success", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(PhotosPagerActivity.this, "Error rename", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(PhotosPagerActivity.this, "Cannot find directory of the image", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+            });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+        }
+    }
+
     private void deleteItemOnClickListener(File file){
         if (file.delete()){
 //                                    TODO: Xu ly xoa file voi bo nho ngoai
@@ -264,11 +323,16 @@ public class PhotosPagerActivity extends AppCompatActivity {
     //TimerTask time;
     //Timer timer = new Timer();
     private void playItemOnClickListener(){
+        if(pos >= album.getMedias().size()-1) {
+            Toast.makeText(PhotosPagerActivity.this, "End of album", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final Timer timer = new Timer();
         if(isSlide){
             isSlide = false;
             return;
         }
+        menu.findItem(R.id.play).setIcon(R.drawable.ic_pause_circle_outline_white_24dp);
         isSlide = true;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -276,11 +340,13 @@ public class PhotosPagerActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         if (!isSlide){
+                            menu.findItem(R.id.play).setIcon(R.drawable.ic_play_circle_outline_white_24dp);
                             timer.cancel();
                             return;
                         }
 
                         if (pos >= album.getMedias().size()) {
+                            menu.findItem(R.id.play).setIcon(R.drawable.ic_play_circle_outline_white_24dp);
                             timer.cancel();
                             pos--;
                             // Showing a toast for just testing purpose
