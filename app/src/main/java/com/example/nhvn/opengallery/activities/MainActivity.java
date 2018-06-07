@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        getSupportActionBar().setTitle(getResources().getString(R.string.albums));
         if(isAlbumUI){
             finish();
         }else{
@@ -176,15 +177,16 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content, PhotosFragment.newInstance(this, album))
                 .addToBackStack(PhotosFragment.TAG)
                 .commit();
-
+        getSupportActionBar().setTitle(album.getName());
     }
 
     @Override
     public void onMsgFromFragToMain(Album album, int pos, int isVideo) {
+        getSupportActionBar().setTitle(album.getName());
         if(isVideo!=0){
             //isAlbumUI = false;
             isPauseActivity = true;
-            Intent intent = new Intent(this, ViewVideoActivity.class);
+            Intent intent = new Intent(this, VideoActivity.class);
             intent.putExtra("VIDEOS", album);
             intent.putExtra("POS", pos);
             startActivity(intent);

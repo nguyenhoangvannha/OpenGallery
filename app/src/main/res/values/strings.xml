@@ -49,4 +49,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="input_name">Name</string>
+
+    <string name="title_activity_videos">VideosActivity</string>
 </resources>
